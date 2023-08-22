@@ -5,7 +5,7 @@
     <color name="grey">#F1F1F1</color>
 <!--    theme for app-->
     <color name="seed">#0492eb</color>
-    <color name="md_theme_light_primary">#0062A0</color>
+    <color name="md_theme_light_primary">#0695ed</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#D0E4FF</color>
     <color name="md_theme_light_onPrimaryContainer">#001D35</color>
@@ -28,7 +28,7 @@
     <color name="md_theme_light_inverseSurface">#2F3033</color>
     <color name="md_theme_light_inversePrimary">#9CCAFF</color>
     <color name="md_theme_light_shadow">#000000</color>
-    <color name="md_theme_light_surfaceTint">#0062A0</color>
+    <color name="md_theme_light_surfaceTint">#0695ed</color>
     <color name="md_theme_light_outlineVariant">#C2C7CF</color>
     <color name="md_theme_light_scrim">#000000</color>
     <color name="md_theme_light_surface">#F9F9FC</color>
@@ -56,7 +56,7 @@
     <color name="md_theme_dark_outline">#8C9199</color>
     <color name="md_theme_dark_inverseOnSurface">#1A1C1E</color>
     <color name="md_theme_dark_inverseSurface">#E2E2E6</color>
-    <color name="md_theme_dark_inversePrimary">#0062A0</color>
+    <color name="md_theme_dark_inversePrimary">#0695ed</color>
     <color name="md_theme_dark_shadow">#000000</color>
     <color name="md_theme_dark_surfaceTint">#9CCAFF</color>
     <color name="md_theme_dark_outlineVariant">#42474E</color>
@@ -65,4 +65,5 @@
     <color name="md_theme_dark_onSurface">#C6C6CA</color>
     <color name="md_theme_dark_surfaceVariant">#42474E</color>
     <color name="md_theme_dark_onSurfaceVariant">#C2C7CF</color>
+    <color name="bg_grey_pink">#E7DADA</color>
 </resources>
