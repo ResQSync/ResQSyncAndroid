@@ -7,6 +7,6 @@ import com.uchi.resqsync.R
 class ResQSync : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_layout_fragment)
+        setContentView(R.layout.activity_login)
     }
 }
