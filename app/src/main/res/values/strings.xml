@@ -46,6 +46,14 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="welcome_back">Welcome back</string>
-    <string name="hi">Hi!</string>
+    <string name="create_account">Create an Account</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="hey_there">Hey there,</string>
     <string name="login">Login</string>
+    <string name="sign_up">Signup</string>
+    <string name="invalid_email">Please enter valid email</string>
+    <string name="password_mismatch">Passwords mismatch</string>
+    <string name="invalid_password_format">Password must include a capital letter, a special character and a number\nMinimum length 8</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
