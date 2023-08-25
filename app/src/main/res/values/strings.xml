@@ -56,4 +56,11 @@
     <string name="invalid_password_format">Password must include a capital letter, a special character and a number\nMinimum length 8</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="get_started">Get Started</string>
+    <string name="resqsync">ResQSync</string>
+    <string name="effortless_family_tracking">Effortless Family Tracking</string>
+    <string name="onboarding_1_about">Simplify staying connected and secure by effortlessly tracking your loved ones\' locations. Let us handle the worry, &amp; start ensuring their safety now!</string>
+    <string name="always_stay_connected">Always Stay Connected</string>
+    <string name="onboarding_2_about">Get ready to streamline your journey with instant location updates. From now on, you\'ll never lose sight of what matters most. Let\'s start tracking!</string>
+
 </resources>
