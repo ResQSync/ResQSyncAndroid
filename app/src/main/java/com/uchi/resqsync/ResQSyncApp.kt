@@ -1,0 +1,14 @@
+package com.uchi.resqsync
+
+import android.app.Application
+import timber.log.Timber
+
+
+open class ResQSyncApp: Application() {
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+                Timber.plant(Timber.DebugTree())
+            }
+    }
+}

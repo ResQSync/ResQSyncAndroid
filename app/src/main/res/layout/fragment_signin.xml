@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.LoginFragment">
+    tools:context=".ui.SigninFragment"
+    android:background="@color/grey">
 
     <LinearLayout
         android:id="@+id/hello_text"
@@ -49,6 +50,20 @@
             app:lottie_loop="true"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/user_not_valid"
+        android:textColor="@color/design_default_color_error"
+        android:layout_marginBottom="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/invalid_email_or_password"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginHorizontal="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/email_input_text_layout"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_input_text_layout"
@@ -107,13 +122,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_button"
+        android:id="@+id/signin_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/login"
+        android:text="@string/signin"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:fontFamily="@font/poppins_medium"
@@ -122,5 +137,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password_input_text_layout" />
+
+
+    <TextView
+        android:id="@+id/new_user_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="@string/new_account"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
