@@ -49,7 +49,7 @@
     <string name="create_account">Create an Account</string>
     <string name="confirm_password">Confirm password</string>
     <string name="hey_there">Hey there,</string>
-    <string name="login">Login</string>
+    <string name="signin">Signin</string>
     <string name="sign_up">Signup</string>
     <string name="invalid_email">Please enter valid email</string>
     <string name="password_mismatch">Passwords mismatch</string>
@@ -62,5 +62,9 @@
     <string name="onboarding_1_about">Simplify staying connected and secure by effortlessly tracking your loved ones\' locations. Let us handle the worry, &amp; start ensuring their safety now!</string>
     <string name="always_stay_connected">Always Stay Connected</string>
     <string name="onboarding_2_about">Get ready to streamline your journey with instant location updates. From now on, you\'ll never lose sight of what matters most. Let\'s start tracking!</string>
-
+    <string name="privacy_policy_text">By continuing you accept our Privacy Policy and Terms of Use</string>
+    <string name="existing_account">Already have a account? Signin</string>
+    <string name="new_account">Don\'t have a account yet? Register</string>
+    <string name="invalid_email_or_password">Invalid email or password</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
