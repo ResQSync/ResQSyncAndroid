@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.button.MaterialButton
 import com.uchi.resqsync.R
+import com.uchi.resqsync.utils.PrefConstant
 
 class OnboardingFragment2 : Fragment() {
     private lateinit var getStartedButton: MaterialButton
@@ -22,6 +23,7 @@ class OnboardingFragment2 : Fragment() {
         getStartedButton = view.findViewById(R.id.get_started_btn)
 
         getStartedButton.setOnClickListener {
+            PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
             navRegisterUserFragment()
         }
     }
