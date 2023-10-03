@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "398951447705",
+    "project_id": "resqsync-71975",
+    "storage_bucket": "resqsync-71975.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398951447705:android:1e3c91be3a1cd82a1acc08",
+        "android_client_info": {
+          "package_name": "com.uchi.resqsync"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398951447705-9548u3o3thfmbnnufqqk38de5o3hk9n9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uchi.resqsync",
+            "certificate_hash": "8d9920432c6c35a4219be11a37402ef0763fc582"
+          }
+        },
+        {
+          "client_id": "398951447705-d46ht1heut48dtbcqrovbef12dv99n3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6ttxkiU59t1wXFWvUsIk4gap8xT56VEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398951447705-d46ht1heut48dtbcqrovbef12dv99n3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

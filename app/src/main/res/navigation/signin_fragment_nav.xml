@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signin_fragment_nav"
+    app:startDestination="@id/onboardingFragment0">
+
+    <fragment
+        android:id="@+id/onboardingFragment1"
+        android:name="com.uchi.resqsync.ui.onboarding.OnboardingFragment1"
+        android:label="OnboardingFragment1" >
+        <action
+            android:id="@+id/action_onboardingFragment1_to_onboardingFragment2"
+            app:destination="@id/onboardingFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment2"
+        android:name="com.uchi.resqsync.ui.onboarding.OnboardingFragment2"
+        android:label="OnboardingFragment2" >
+        <action
+            android:id="@+id/action_onboardingFragment2_to_phoneAuthFragment"
+            app:destination="@id/phoneAuthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.uchi.resqsync.ui.phoneAuth.OtpFragment"
+        android:label="fragment_otp"
+        tools:layout="@layout/fragment_otp" />
+    <fragment
+        android:id="@+id/onboardingFragment0"
+        android:name="com.uchi.resqsync.ui.onboarding.OnboardingFragment0"
+        android:label="fragment_onboarding0"
+        tools:layout="@layout/fragment_onboarding0" >
+        <action
+            android:id="@+id/action_onboardingFragment0_to_onboardingFragment1"
+            app:destination="@id/onboardingFragment1" />
+        <action
+            android:id="@+id/action_onboardingFragment0_to_phoneAuthFragment"
+            app:destination="@id/phoneAuthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/phoneAuthFragment"
+        android:name="com.uchi.resqsync.ui.phoneAuth.PhoneAuthFragment"
+        android:label="PhoneAuthFragment" >
+        <action
+            android:id="@+id/action_phoneAuthFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
+    </fragment>
+</navigation>

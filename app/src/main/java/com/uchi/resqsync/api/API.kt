@@ -1,4 +1,4 @@
-package com.uchi.resqsync.utils.api
+package com.uchi.resqsync.api
 
 object API {
     const val BASE_URL="https://resqsync.co.in"

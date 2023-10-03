@@ -4,62 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/background"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/onboarding_nav_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/onboarding_background1" />
-
-    <ImageView
-        android:id="@+id/girl_illustration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/girl_illustration" />
-
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/effortless_family_tracking"
-        android:textSize="23sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/background" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:fontFamily="@font/poppins"
-        android:text="@string/onboarding_1_about"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/heading" />
-
-    <ImageButton
-        android:id="@+id/onboarding_btn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:backgroundTint="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/chevron_1" />
-
+        app:navGraph="@navigation/signin_fragment_nav"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

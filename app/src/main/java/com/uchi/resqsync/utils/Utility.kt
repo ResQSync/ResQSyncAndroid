@@ -1,5 +1,7 @@
 package com.uchi.resqsync.utils
 
+import android.content.Context
+import android.location.Location
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString

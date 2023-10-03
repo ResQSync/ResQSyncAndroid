@@ -44,13 +44,16 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="email">Email</string>
+    <string name="phone">Phone</string>
     <string name="password">Password</string>
     <string name="welcome_back">Welcome back</string>
     <string name="create_account">Create an Account</string>
+    <string name="enter_phone">Enter your phone number to continue</string>
     <string name="confirm_password">Confirm password</string>
     <string name="hey_there">Hey there,</string>
     <string name="signin">Signin</string>
     <string name="sign_up">Signup</string>
+    <string name="proceed">Proceed</string>
     <string name="invalid_email">Please enter valid email</string>
     <string name="password_mismatch">Passwords mismatch</string>
     <string name="invalid_password_format">Password must include a capital letter, a special character and a number\nMinimum length 8</string>
@@ -66,5 +69,9 @@
     <string name="existing_account">Already have a account? Signin</string>
     <string name="new_account">Don\'t have a account yet? Register</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
+    <string name="continue_text">Continue</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="otp">OTP</string>
+    <string name="verify">Verify</string>
+    <string name="didn_t_receive_the_otp_resend">Didn\'t receive the OTP? Resend</string>
 </resources>

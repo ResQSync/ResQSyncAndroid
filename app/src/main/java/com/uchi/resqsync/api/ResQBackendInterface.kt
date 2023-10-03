@@ -1,4 +1,4 @@
-package com.uchi.resqsync.utils.api
+package com.uchi.resqsync.api
 
 import android.annotation.SuppressLint
 import okhttp3.OkHttpClient

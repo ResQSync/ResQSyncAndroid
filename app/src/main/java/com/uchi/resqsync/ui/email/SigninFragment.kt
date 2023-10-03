@@ -1,4 +1,4 @@
-package com.uchi.resqsync.ui
+package com.uchi.resqsync.ui.email
 
 import android.content.Intent
 import android.graphics.Color
@@ -15,13 +15,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.uchi.resqsync.R
 import com.uchi.resqsync.utils.Utility.makeLinks
-import com.uchi.resqsync.utils.api.BackendService
-import com.uchi.resqsync.utils.api.LoginRequest
-import com.uchi.resqsync.utils.api.LoginResponse
-import com.uchi.resqsync.utils.api.RegistrationRequest
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.uchi.resqsync.ui.dashboard.DashBoardActivity
+import com.uchi.resqsync.ui.phoneAuth.PhoneAuthFragment
 import timber.log.Timber
 
 class SigninFragment : Fragment() {
@@ -87,7 +82,7 @@ class SigninFragment : Fragment() {
             Pair("Register", View.OnClickListener {
                 val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
                 val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.fragmentContainer, RegisterUserFragment())
+                fragmentTransaction.replace(R.id.fragmentContainer, PhoneAuthFragment())
                 fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.commit()
             })
