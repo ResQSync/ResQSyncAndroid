@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
-    tools:context=".ui.phoneAuth.OtpFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.userdetails.UserDetailsFragment">
+
 
     <LinearLayout
         android:id="@+id/hello_text"
@@ -17,49 +17,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/enter_the_one_time_password"
-            android:textSize="25sp"
+            android:text="@string/enter_details"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/resend_otp_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:fontFamily="@font/poppins_medium"
-            android:gravity="center"
-            android:text="@string/didn_t_receive_the_otp_resend"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent" />
     </LinearLayout>
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:src="@drawable/otp_security"
-        app:layout_constraintBottom_toTopOf="@id/otp_verification_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/phone_input_text_layout" />
-
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phone_input_text_layout"
+        android:id="@+id/fullname_input_text_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/otp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/full_name"
         app:boxCornerRadiusBottomEnd="20dp"
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20dp"
@@ -68,27 +46,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hello_text"
-        app:startIconDrawable="@drawable/otp">
+        app:startIconDrawable="@drawable/account">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user_otp"
+            android:id="@+id/user_full_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="phone"
-            android:maxLength="6"
+            android:inputType="text"
+            android:maxLength="50"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_input_text_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/email"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fullname_input_text_layout"
+        app:startIconDrawable="@drawable/ic_email_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:maxLength="100"
+            android:ellipsize="end"
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/otp_verification_button"
+        android:id="@+id/submit_details_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:layout_marginBottom="28dp"
-        android:text="@string/verify"
+        android:text="@string/proceed"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:fontFamily="@font/poppins_medium"
@@ -98,5 +105,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

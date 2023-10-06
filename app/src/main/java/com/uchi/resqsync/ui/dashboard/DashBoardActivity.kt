@@ -1,19 +1,32 @@
 package com.uchi.resqsync.ui.dashboard
 
 import android.Manifest
+import android.app.Dialog
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.uchi.resqsync.R
+import com.uchi.resqsync.snackbar.BaseSnackbarBuilderProvider
+import com.uchi.resqsync.snackbar.SnackbarBuilder
+import com.uchi.resqsync.snackbar.showSnackbar
 import com.uchi.resqsync.utils.Permission
+import com.uchi.resqsync.utils.PrefConstant.ERROR_DIALOG_REQUEST
+import timber.log.Timber
 
-class DashBoardActivity : AppCompatActivity() {
+
+class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
     private lateinit var bottomNavigation : BottomNavigationView
+
+    override val baseSnackbarBuilder: SnackbarBuilder = {
+        anchorView = findViewById<BottomNavigationView>(R.id.bottomNav)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +41,7 @@ class DashBoardActivity : AppCompatActivity() {
 //                REQUEST_LOCATION_PERMISSION
 //            )
 //        }
+        showSnackbar("invalid otp")
         checkPermissions()
 
         bottomNavigation.setOnItemSelectedListener {
@@ -58,6 +72,16 @@ class DashBoardActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+      //  if(checkMapServices()){
+            //TODO: if(checkMapServices()){
+            //            if(mLocationPermissionGranted){
+            //                continue here
+            //            }
+            //            else{
+            //                getLocationPermission();
+            //            }
+            //        }
+       // }
     }
 
     private  fun loadFragment(fragment: Fragment){
@@ -145,5 +169,36 @@ class DashBoardActivity : AppCompatActivity() {
     private val locationPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             permissions -> handlePermissionResults(permissions)
     }
+
+    fun isServicesOK(): Boolean {
+        Timber.d( "isServicesOK: checking google services version")
+        val available =
+            GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this@DashBoardActivity)
+        if (available == ConnectionResult.SUCCESS) {
+            //everything is fine and the user can make map requests
+            Timber.d( "isServicesOK: Google Play Services is working")
+            return true
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            //an error occurred but we can resolve it
+            Timber.d( "isServicesOK: an error occurred but we can fix it")
+            val dialog: Dialog? = GoogleApiAvailability.getInstance()
+                .getErrorDialog(this@DashBoardActivity, available, ERROR_DIALOG_REQUEST)
+            dialog?.show()
+        } else {
+            showSnackbar(getString(R.string.cant_make_map_requests))
+        }
+        return false
+    }
+
+    private fun checkMapServices(): Boolean {
+        if (isServicesOK()) {
+            return true
+//            if (isMapsEnabled()) {
+//                return true
+//            }
+        }
+        return false
+    }
+
 
 }

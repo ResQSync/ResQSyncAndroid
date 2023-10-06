@@ -54,6 +54,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
     testImplementation("junit:junit:4.13.2")
     implementation ("com.airbnb.android:lottie:6.1.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -64,7 +65,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation("org.greenrobot:eventbus:3.3.1")
-    implementation ("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.maps.android:android-maps-utils:3.4.0")
     // ViewModel
     val lifecycle_version = "2.6.2"
 

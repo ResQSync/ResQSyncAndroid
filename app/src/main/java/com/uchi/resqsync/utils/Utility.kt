@@ -52,7 +52,7 @@ object Utility {
                 }
             }
             startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
-//      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+            // if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
             spannableString.setSpan(
                 clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -85,7 +85,7 @@ object Utility {
                 }
             }
             startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
-//      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+            // if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
             spannableString.setSpan(
                 clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -95,4 +95,18 @@ object Utility {
             LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
         this.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
+
+    fun generateUniqueCode(): String {
+        val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        val codeLength = 6
+        val code = StringBuilder()
+
+        repeat(codeLength) {
+            val randomIndex = (letters.indices).random()
+            val randomChar = letters[randomIndex]
+            code.append(randomChar)
+        }
+        return code.toString()
+    }
+
 }

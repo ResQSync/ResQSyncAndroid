@@ -18,14 +18,6 @@ class ResQSync : AppCompatActivity() {
             val intent = Intent(this@ResQSync, OnboardingActivity::class.java)
             startActivity(intent)
         }
-
-//            val fragment = RegisterUserFragment() // Instantiate your Fragment
-//            val fragmentManager = supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//
-//            fragmentTransaction.replace(R.id.fragmentContainer, fragment)
-//            fragmentTransaction.addToBackStack(null) // Optional: Adds the transaction to the back stack
-//            fragmentTransaction.commit()
     }
 
 

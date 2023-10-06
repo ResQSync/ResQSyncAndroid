@@ -141,37 +141,6 @@ class RegisterUserFragment : Fragment() {
         }
 
     }
-
-    private fun initiateSignUp() {
-        Timber.d("Signup button pressed")
-        val signUp = BackendService.backendInstance.registerUser(RegistrationRequest(email,password))
-        signUp.enqueue(object : Callback<RegistrationResponse>{
-            override fun onResponse(
-                call: Call<RegistrationResponse>,
-                response: Response<RegistrationResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        val responseBodyString = Gson().toJson(responseBody)
-                        Timber.e("Response Body: $responseBodyString")
-                        // Now you can parse and inspect the response body
-                    } else {
-                        Timber.e("Response body is null")
-                    }
-                } else {
-                    Timber.e("Unsuccessful response: " + response.code())
-                }
-                Toast.makeText(context, "Success$response", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onFailure(call: Call<RegistrationResponse>, t: Throwable) {
-                Timber.tag("TAG").e("API call failed: " + t.message)
-                Toast.makeText(context, "Failure", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
     override fun onStart() {
         super.onStart()
         val currentUser =firebaseAuth.currentUser

@@ -14,7 +14,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-
+//NOT REQUIRED AS OF NOW
 interface ResQBackendInterface {
     @POST(API.SIGNUP_API_URL)
     fun registerUser(@Body request: RegistrationRequest): Call<RegistrationResponse>

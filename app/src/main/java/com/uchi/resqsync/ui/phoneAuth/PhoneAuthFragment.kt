@@ -1,13 +1,12 @@
 package com.uchi.resqsync.ui.phoneAuth
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
@@ -20,6 +19,10 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.hbb20.CountryCodePicker
 import com.uchi.resqsync.R
+import com.uchi.resqsync.models.UserModel
+import com.uchi.resqsync.ui.dashboard.DashBoardActivity
+import com.uchi.resqsync.utils.FirebaseUtils
+import com.uchi.resqsync.utils.PrefConstant
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -48,6 +51,26 @@ class PhoneAuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        if(FirebaseUtils().isLoggedIn()){
+            if(PrefConstant.getDetailsProvided(requireContext())){
+                val intent = Intent(requireContext(), DashBoardActivity::class.java)
+                startActivity(intent)
+            }else{
+                navController.navigate(R.id.action_phoneAuthFragment_to_userDetailsFragment)
+            }
+            //TODO: use this to set the user name and email in settings
+//            FirebaseUtils().currentUserDetails().get().addOnCompleteListener{ task ->
+//            if(task.isSuccessful){
+//                 val userModel=task.result.toObject(UserModel::class.java)
+//                if(userModel!=null){
+//                    val intent = Intent(requireContext(), DashBoardActivity::class.java)
+//                    startActivity(intent)
+//                }else{
+//                    navController.navigate(R.id.action_phoneAuthFragment_to_userDetailsFragment)
+//                }
+//             }
+//          }
+        }
         firebaseCallback()
         phoneNumber = view.findViewById(R.id.user_phone)
         ccp = view.findViewById(R.id.country_code_picker)
@@ -80,7 +103,9 @@ class PhoneAuthFragment : Fragment() {
                 super.onCodeSent(verificationId, resendVerification)
                 resendToken = resendVerification
                 otp = verificationId
-                navController.navigate(R.id.action_phoneAuthFragment_to_otpFragment)
+                val bundle = Bundle()
+                bundle.putString("verificationCode", otp)
+                navController.navigate(R.id.action_phoneAuthFragment_to_otpFragment, bundle)
             }
         }
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -106,34 +131,15 @@ class PhoneAuthFragment : Fragment() {
         }
     }
 
-    fun signInWithPhoneAuthCredential(
-        credential: PhoneAuthCredential,
-        auth: FirebaseAuth
-    ) {
-        // on below line signing with credentials.
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(requireActivity()) { task ->
-                // displaying toast message when
-                // verification is successful
-                if (task.isSuccessful) {
-                    Timber.d("signInWithPhoneAuthCredential: /..../...changed")
-                } else {
-                    // Sign in failed, display a message
-                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        // The verification code
-                        // entered was invalid
-                        Toast.makeText(
-                            context,
-                            "Verification failed.." + (task.exception as FirebaseAuthInvalidCredentialsException).message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-    }
-
-
-    fun firebasePhoneAuth() {}
+//    fun getUserName(){
+//        FirebaseUtils().currentUserDetails().get().addOnCompleteListener{
+//            task ->
+//            if(task.isSuccessful){
+//
+//            }
+//        }
+//
+//    }
 }
 
 //       val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {

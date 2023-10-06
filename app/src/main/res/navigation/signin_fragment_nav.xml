@@ -25,7 +25,11 @@
         android:id="@+id/otpFragment"
         android:name="com.uchi.resqsync.ui.phoneAuth.OtpFragment"
         android:label="fragment_otp"
-        tools:layout="@layout/fragment_otp" />
+        tools:layout="@layout/fragment_otp" >
+        <action
+            android:id="@+id/action_otpFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingFragment0"
         android:name="com.uchi.resqsync.ui.onboarding.OnboardingFragment0"
@@ -45,5 +49,13 @@
         <action
             android:id="@+id/action_phoneAuthFragment_to_otpFragment"
             app:destination="@id/otpFragment" />
+        <action
+            android:id="@+id/action_phoneAuthFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.uchi.resqsync.ui.userdetails.UserDetailsFragment"
+        android:label="fragment_user_details"
+        tools:layout="@layout/fragment_user_details" />
 </navigation>

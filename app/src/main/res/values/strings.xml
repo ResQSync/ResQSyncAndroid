@@ -74,4 +74,10 @@
     <string name="otp">OTP</string>
     <string name="verify">Verify</string>
     <string name="didn_t_receive_the_otp_resend">Didn\'t receive the OTP? Resend</string>
+    <string name="enter_the_one_time_password">Enter the one time password received on your phone</string>
+    <string name="full_name">Full Name</string>
+    <string name="enter_details">Enter your details to complete the registration</string>
+    <string name="name_required">Name required</string>
+    <string name="sign_out">Sign out</string>
+    <string name="cant_make_map_requests">You can\'t make map requests</string>
 </resources>
