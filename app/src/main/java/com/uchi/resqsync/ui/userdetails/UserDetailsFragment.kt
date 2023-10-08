@@ -55,7 +55,7 @@ class UserDetailsFragment : Fragment() {
 
     fun updateDetails(){
         FirebaseUtils().currentUserDetails().set(
-            UserModel(userFullName.text.toString(),userEmail.text.toString())
+            UserModel(userFullName.text.toString(),userEmail.text.toString(),FirebaseUtils().currentUserId().toString())
         ).addOnCompleteListener {
             task ->
             if(task.isSuccessful){

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.uchi.resqsync.R
 
 
-class AccountFragment : Fragment() {
+class ContactFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -16,7 +16,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false)
+        return inflater.inflate(R.layout.fragment_contact, container, false)
     }
 
 

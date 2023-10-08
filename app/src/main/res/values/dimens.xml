@@ -2,4 +2,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="custom_marker_image">24dp</dimen>
     <dimen name="custom_marker_padding">4dp</dimen>
+    <dimen name="title_text">20sp</dimen>
+    <dimen name="heading">24sp</dimen>
+    <dimen name="content_text">18sp</dimen>
+    <dimen name="usable_fragment_margin">8dp</dimen>
 </resources>

@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F1F1F1</color>
+    <color name="grey_light">#F5F5F5</color>
 <!--    theme for app-->
     <color name="seed">#0492eb</color>
     <color name="md_theme_light_primary">#0695ed</color>

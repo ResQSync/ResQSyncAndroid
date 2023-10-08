@@ -55,7 +55,7 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
                     true
                 }
                 R.id.action_account -> {
-                    loadFragment(AccountFragment())
+                    loadFragment(ContactFragment())
                     true
                 }
                 R.id.action_settings -> {
