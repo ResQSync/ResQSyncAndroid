@@ -13,10 +13,13 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.uchi.resqsync.R
+import com.uchi.resqsync.models.UserCircleModel
 import com.uchi.resqsync.snackbar.BaseSnackbarBuilderProvider
 import com.uchi.resqsync.snackbar.SnackbarBuilder
 import com.uchi.resqsync.snackbar.showSnackbar
+import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.Permission
+import com.uchi.resqsync.utils.PrefConstant
 import com.uchi.resqsync.utils.PrefConstant.ERROR_DIALOG_REQUEST
 import timber.log.Timber
 
@@ -31,6 +34,7 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dash_board)
+        setFamilyDetails()
         loadFragment(LocationMapFragment())
         bottomNavigation = findViewById(R.id.bottomNav)
 
@@ -198,6 +202,19 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
 //            }
         }
         return false
+    }
+
+
+    fun setFamilyDetails(){
+        FirebaseUtils().userCircleDetails("family").get()
+            .addOnCompleteListener {task->
+                if(task.isSuccessful){
+                    val details = task.result.toObject(UserCircleModel::class.java)
+                    if (details != null) {
+                        PrefConstant.saveMembersDetails(this@DashBoardActivity,"family",details)
+                    }
+                }
+            }
     }
 
 

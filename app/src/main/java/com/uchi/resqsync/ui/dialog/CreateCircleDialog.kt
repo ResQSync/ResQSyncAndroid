@@ -13,6 +13,8 @@ import com.uchi.resqsync.models.UserCircleModel
 import com.uchi.resqsync.models.UserModel
 import com.uchi.resqsync.utils.FirebaseUtils
 
+
+//TODO: not active right now
 class CreateCircleDialog():DialogFragment() {
     private lateinit var dialogView: View
     private lateinit var circleName: TextInputEditText
@@ -29,10 +31,6 @@ class CreateCircleDialog():DialogFragment() {
                 if(circleName.text.toString().isNotEmpty()){
                     val cName =circleName.text.toString()
                     FirebaseUtils().createCollection(cName)
-                    FirebaseUtils().userCircleDetails(cName)
-                        .set(UserCircleModel(listOf(UserModel("","","")))).addOnCompleteListener {
-                            dismiss()
-                        }
                 }
             }
             this.setNegativeButton(resources.getString(R.string.add)){_,_ ->

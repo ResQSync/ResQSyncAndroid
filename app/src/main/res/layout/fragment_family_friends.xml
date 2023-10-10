@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.settings.FamilyFriendsFragment">
 
@@ -14,8 +15,9 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
+<!--                // TODO : make this layout visible so that the user can select n create circle-->
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
@@ -34,8 +36,54 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:chipIcon="@drawable/ic_add"
-                        android:text="@string/add"/>
+                        android:checkable="true"
+                        android:text="@string/create_circle"/>
 
+
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                  android:padding="8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/code_input_text_layout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:hint="@string/enter_member_code"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        android:layout_weight="1"
+                        android:padding="4dp"
+
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/member_code_input_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:maxLength="20"
+                            android:singleLine="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:text="@string/add"
+                        android:id="@+id/add_members_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
@@ -53,7 +101,5 @@
             </LinearLayout>
 
         </ScrollView>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

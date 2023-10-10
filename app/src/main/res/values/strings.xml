@@ -105,5 +105,12 @@
     <string name="family">Family</string>
     <string name="circle_s_name">Circle\'s name</string>
     <string name="create_circle_title">Create your own circle</string>
+    <string name="reset">Reset</string>
     <string name="create_circle_message">You can create a new circle and add members into it.</string>
+    <string name="add_member_title">Add member to your circle</string>
+    <string name="create_circle">Create circle</string>
+    <string name="enter_member_code">Enter member code</string>
+    <string name="add_member_message">Enter the 6 digit member\'s code to add them to your circle</string>
+    <string name="loading">Loading..</string>
+    <string name="enter_otp_error">Enter valid OTP</string>
 </resources>

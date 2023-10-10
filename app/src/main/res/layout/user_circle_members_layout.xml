@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:id="@+id/circle_members_layout"
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -13,7 +14,6 @@
         app:cardBackgroundColor="@color/grey_light">
 
         <LinearLayout
-            android:id="@+id/action_profile"
             android:clickable="true"
             android:focusable="true"
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:src="@drawable/ic_diversity_3" />
 
             <TextView
-                android:id="@+id/circle_name_text"
+                android:id="@+id/circle_member_name_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"

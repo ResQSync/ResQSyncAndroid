@@ -2,6 +2,8 @@ package com.uchi.resqsync.ui.phoneAuth
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import com.hbb20.CountryCodePicker
 import com.uchi.resqsync.R
 import com.uchi.resqsync.models.UserModel
 import com.uchi.resqsync.ui.dashboard.DashBoardActivity
+import com.uchi.resqsync.ui.dialog.LoadingDialog
 import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.PrefConstant
 import timber.log.Timber
@@ -36,6 +39,7 @@ class PhoneAuthFragment : Fragment() {
     private lateinit var resendToken : PhoneAuthProvider.ForceResendingToken
 
     private lateinit var navController: NavController
+    private lateinit var loadingDialog: LoadingDialog
 
     lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
@@ -58,30 +62,37 @@ class PhoneAuthFragment : Fragment() {
             }else{
                 navController.navigate(R.id.action_phoneAuthFragment_to_userDetailsFragment)
             }
-            //TODO: use this to set the user name and email in settings
-//            FirebaseUtils().currentUserDetails().get().addOnCompleteListener{ task ->
-//            if(task.isSuccessful){
-//                 val userModel=task.result.toObject(UserModel::class.java)
-//                if(userModel!=null){
-//                    val intent = Intent(requireContext(), DashBoardActivity::class.java)
-//                    startActivity(intent)
-//                }else{
-//                    navController.navigate(R.id.action_phoneAuthFragment_to_userDetailsFragment)
-//                }
-//             }
-//          }
         }
         firebaseCallback()
         phoneNumber = view.findViewById(R.id.user_phone)
         ccp = view.findViewById(R.id.country_code_picker)
         proceedOTP = view.findViewById(R.id.send_otp_button)
-
+        proceedOTP.isEnabled=false
         countryCode = ccp.selectedCountryCode
+        handlePhoneSubmit()
 
+    }
+
+    private fun handlePhoneSubmit() {
+        phoneNumber.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(string: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    proceedOTP.isEnabled = string.toString().length==10
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+              // Do nothing
+            }
+
+        })
         proceedOTP.setOnClickListener {
             sendVerificationCode("+${countryCode}${phoneNumber.text.toString()}", firebaseAuth, false )
+            loadingDialog= LoadingDialog(requireActivity())
+            loadingDialog.showLoadingDialog()
         }
-
     }
 
     fun firebaseCallback() {
@@ -105,6 +116,7 @@ class PhoneAuthFragment : Fragment() {
                 otp = verificationId
                 val bundle = Bundle()
                 bundle.putString("verificationCode", otp)
+                loadingDialog.dismissDialog()
                 navController.navigate(R.id.action_phoneAuthFragment_to_otpFragment, bundle)
             }
         }
@@ -130,84 +142,4 @@ class PhoneAuthFragment : Fragment() {
             PhoneAuthProvider.verifyPhoneNumber(options.build())
         }
     }
-
-//    fun getUserName(){
-//        FirebaseUtils().currentUserDetails().get().addOnCompleteListener{
-//            task ->
-//            if(task.isSuccessful){
-//
-//            }
-//        }
-//
-//    }
 }
-
-//       val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//
-//            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-//                // This callback will be invoked in two situations:
-//                // 1 - Instant verification. In some cases the phone number can be instantly
-//                //     verified without needing to send or enter a verification code.
-//                // 2 - Auto-retrieval. On some devices Google Play services can automatically
-//                //     detect the incoming verification SMS and perform verification without
-//                //     user action.
-//                signInWithPhoneAuthCredential(credential)
-//            }
-//
-//            override fun onVerificationFailed(e: FirebaseException) {
-//                // This callback is invoked in an invalid request for verification is made,
-//                // for instance if the the phone number format is not valid.
-//                Log.w(TAG, "onVerificationFailed", e)
-//
-//                if (e is FirebaseAuthInvalidCredentialsException) {
-//                    // Invalid request
-//                } else if (e is FirebaseTooManyRequestsException) {
-//                    // The SMS quota for the project has been exceeded
-//                } else if (e is FirebaseAuthMissingActivityForRecaptchaException) {
-//                    // reCAPTCHA verification attempted with null Activity
-//                }
-//
-//                // Show a message and update the UI
-//            }
-//
-//            override fun onCodeSent(
-//                verificationId: String,
-//                token: PhoneAuthProvider.ForceResendingToken,
-//            ) {
-//                // The SMS verification code has been sent to the provided phone number, we
-//                // now need to ask the user to enter the code and then construct a credential
-//                // by combining the code with a verification ID.
-//
-//
-//                // Save verification ID and resending token so we can use them later
-//                storedVerificationId = verificationId
-//                resendToken = token
-//            }
-//        }
-//
-//        val options = PhoneAuthOptions.newBuilder(firebaseAuth)
-//            .setPhoneNumber(phoneNumber.text.toString())
-//            .setTimeout(3*60L, TimeUnit.SECONDS) // Timeout and unit
-//            .setActivity(activity.) // Activity (for callback binding)
-//            .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
-//            .build()
-//        PhoneAuthProvider.verifyPhoneNumber(options)
-//    }
-//
-//    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-//        firebaseAuth.signInWithCredential(credential)
-//            .addOnCompleteListener(this) { task ->
-//                if (task.isSuccessful) {
-//                    // Sign in success, update UI with the signed-in user's information
-//
-//                    val user = task.result?.user
-//                } else {
-//                    // Sign in failed, display a message and update the UI
-//                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-//                        // The verification code entered was invalid
-//                    }
-//                    // Update UI
-//                }
-//            }
-//    }
-

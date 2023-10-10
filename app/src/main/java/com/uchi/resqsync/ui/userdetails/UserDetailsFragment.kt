@@ -13,6 +13,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.uchi.resqsync.R
 import com.uchi.resqsync.models.UserModel
 import com.uchi.resqsync.ui.dashboard.DashBoardActivity
+import com.uchi.resqsync.ui.dialog.LoadingDialog
+import com.uchi.resqsync.ui.dialog.UniqueCodeDialog
 import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.PrefConstant
 import com.uchi.resqsync.utils.Utility
@@ -23,6 +25,7 @@ class UserDetailsFragment : Fragment() {
     private lateinit var userEmail : TextInputEditText
     private lateinit var nameInputLayout: TextInputLayout
     private lateinit var emailInputLayout: TextInputLayout
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +43,9 @@ class UserDetailsFragment : Fragment() {
         emailInputLayout = view.findViewById(R.id.email_input_text_layout)
 
         submitDetail.setOnClickListener {
+            loadingDialog = LoadingDialog(requireActivity()).apply {
+                showLoadingDialog()
+            }
             if(!Utility.isEmailValid(userEmail.text.toString())){
                 emailInputLayout.error = getString(R.string.invalid_email)
                 return@setOnClickListener
@@ -53,21 +59,35 @@ class UserDetailsFragment : Fragment() {
 
     }
 
-    fun updateDetails(){
+    private fun updateDetails() {
         FirebaseUtils().currentUserDetails().set(
-            UserModel(userFullName.text.toString(),userEmail.text.toString(),FirebaseUtils().currentUserId().toString())
-        ).addOnCompleteListener {
-            task ->
-            if(task.isSuccessful){
+            UserModel(
+                userFullName.text.toString(),
+                userEmail.text.toString(),
+                FirebaseUtils().currentUserId().toString()
+            )
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 PrefConstant.setDetailsProvided(requireContext())
-                val intent = Intent(requireContext(), DashBoardActivity::class.java)
-                startActivity(intent)
-            }else{
+
+                PrefConstant.updateUserDetails(
+                    requireContext(), UserModel(
+                        userFullName.text.toString(),
+                        userEmail.text.toString(),
+                        FirebaseUtils().currentUserId().toString()
+                    )
+                )
+                FirebaseUtils().generateAndAddUniqueCode()
+                loadingDialog.dismissDialog()
+                val dialog = UniqueCodeDialog.newInstance(positiveButtonAction = {
+                    val intent = Intent(requireContext(), DashBoardActivity::class.java)
+                    startActivity(intent)
+                }, false)
+                dialog.show(parentFragmentManager, "UniqueCodeDialog")
+            } else {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
 }

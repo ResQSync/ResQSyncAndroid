@@ -8,4 +8,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+    <style name="TransparentAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+    </style>
 </resources>

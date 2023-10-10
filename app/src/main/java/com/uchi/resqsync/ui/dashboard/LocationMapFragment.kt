@@ -18,10 +18,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.toObject
 import com.uchi.resqsync.R
 import com.uchi.resqsync.models.UserLocation
+import com.uchi.resqsync.models.UserModel
 import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.PrefConstant
 import timber.log.Timber
@@ -30,6 +34,10 @@ class LocationMapFragment : Fragment() {
     private lateinit var mapView: MapView
     private var map: GoogleMap? = null
     private lateinit var lastGeoPoint: GeoPoint
+    private lateinit var userModel: UserModel
+    private lateinit var userLocations:ArrayList<UserLocation>
+    private lateinit var mapBoundary:LatLngBounds
+    private lateinit var userPosition:UserLocation
 
     //get last known location
     private lateinit var fusedLastLocation:FusedLocationProviderClient
@@ -48,8 +56,8 @@ class LocationMapFragment : Fragment() {
         mapView.onCreate(savedInstanceState)
 
         fusedLastLocation=LocationServices.getFusedLocationProviderClient(requireActivity())
-        getDeviceLastKnownLocation()
-
+        getUserDetails()
+        setUserLocation()
 
 
 
@@ -137,10 +145,40 @@ class LocationMapFragment : Fragment() {
 //        }
 //    }
 
+    private fun getUserDetails(){
+        FirebaseUtils().getUserDetails().document(FirebaseUtils().currentUserId()?:"")
+            .get().addOnCompleteListener {task->
+                if(task.isSuccessful){
+                    val user =task.result.toObject(UserModel::class.java)
+                    //getDeviceLastKnownLocation()
+                    if(user!=null){
+                        userModel = UserModel(user.name,user.email,user.userId)
+                    }
+
+                }
+            }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setUserLocation(){
+                        mapView.getMapAsync {
+            it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(28.71981,47.0869), 15f))
+            it.addMarker(
+                MarkerOptions()
+                .title("india")
+                .position(LatLng(28.71981,47.0869))
+            )
+            it.isMyLocationEnabled=true
+
+            map = it
+        }
+    }
+
 
     private fun saveUserLocation(){
+        Timber.d("Saving user's last known location")
         FirebaseUtils().currentUserLocationDetails().set(
-            UserLocation(lastGeoPoint,null)
+            UserLocation(lastGeoPoint,null,userModel)
         ).addOnCompleteListener { task ->
             if(task.isSuccessful){
               Timber.d("successfully updated the location")
@@ -150,10 +188,26 @@ class LocationMapFragment : Fragment() {
         }
     }
 
+    private fun getUserLocation(userModel: UserModel){
+        FirebaseUtils().currentUserLocationDetails().get().addOnCompleteListener { task->
+            if(task.isSuccessful){
+                if (task.result.toObject(UserLocation::class.java)!=null){
+                    userLocations.add(task.result.toObject(UserLocation::class.java)!!)
+                }
+            }
+        }
+    }
+
     //Required
-    private fun moveCamera(latLng: LatLng, zoom : Float){
+    private fun setCameraView(latLng: LatLng, zoom : Float){
         Timber.d("Moving Camera")
-        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom))
+        val bottomBoundary = userPosition.geoPoint.latitude-.1
+        val leftBoundary = userPosition.geoPoint.longitude-.1
+        val topBoundary = userPosition.geoPoint.latitude+.1
+        val rightBoundary = userPosition.geoPoint.longitude+.1
+        mapBoundary = LatLngBounds(LatLng(bottomBoundary,leftBoundary),LatLng(topBoundary,rightBoundary))
+
+        map?.moveCamera(CameraUpdateFactory.newLatLngBounds(mapBoundary,0))
         val options = MarkerOptions()
             .position(latLng)
             .title("my")

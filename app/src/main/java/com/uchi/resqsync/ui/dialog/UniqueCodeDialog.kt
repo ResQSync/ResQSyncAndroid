@@ -14,8 +14,10 @@ import timber.log.Timber
 class UniqueCodeDialog: DialogFragment() {
     private lateinit var dialogView: View
     private lateinit var codeView:TextView
+    private var positiveButtonAction: (() -> Unit)? = null
+    private var showResetButton: Boolean = false
+    private var cancellable:Boolean=false
 
-    // TODO : add a neutral button to generate the code
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val layoutInflater = requireActivity().layoutInflater
         dialogView = layoutInflater.inflate(R.layout.unique_code_dialog, null)
@@ -26,8 +28,18 @@ class UniqueCodeDialog: DialogFragment() {
             this.setTitle(resources.getString(R.string.joining_code_title))
             this.setMessage(resources.getString(R.string.joining_code_message))
             this.setPositiveButton(resources.getString(R.string.done)) { _, _ ->
-                dismiss()
+                if(positiveButtonAction==null){
+                    dismiss()
+                }
+                positiveButtonAction?.invoke()
+
             }
+            if(showResetButton){
+                this.setNegativeButton(resources.getString(R.string.reset)){ _,_->
+                    FirebaseUtils().generateAndAddUniqueCode()
+                }
+            }
+            this.setCancelable(cancellable)
             this.create()
         }
     }
@@ -39,6 +51,20 @@ class UniqueCodeDialog: DialogFragment() {
                 val code = task.result.toObject(JoiningCode::class.java)
                 codeView.text = code?.uniqueCode
             }
+        }
+    }
+
+    companion object{
+        fun newInstance(
+            positiveButtonAction: (() -> Unit)?,
+            showResetButton: Boolean = false,
+            cancellable:Boolean=false
+        ): UniqueCodeDialog {
+            val dialog = UniqueCodeDialog()
+            dialog.positiveButtonAction = positiveButtonAction
+            dialog.showResetButton = showResetButton
+            dialog.cancellable=cancellable
+            return dialog
         }
     }
 

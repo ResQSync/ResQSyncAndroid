@@ -14,14 +14,14 @@ import androidx.navigation.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
 import com.uchi.resqsync.R
 import com.uchi.resqsync.models.JoiningCode
-import com.uchi.resqsync.models.UserCircleModel
-import com.uchi.resqsync.models.UserModel
-import com.uchi.resqsync.snackbar.showSnackbar
+
 import com.uchi.resqsync.ui.dialog.UniqueCodeDialog
 import com.uchi.resqsync.ui.onboarding.OnboardingActivity
 import com.uchi.resqsync.ui.settings.SettingsActivity
 import com.uchi.resqsync.utils.FirebaseUtils
+import com.uchi.resqsync.utils.PrefConstant
 import com.uchi.resqsync.utils.Utility.generateUniqueCode
+import org.w3c.dom.Text
 import timber.log.Timber
 
 
@@ -30,8 +30,10 @@ class SettingsFragment : Fragment() {
     private lateinit var signOutButton:LinearLayout
     private lateinit var profileButton:LinearLayout
     private lateinit var uniqueCodeButton:LinearLayout
-    private lateinit var currentUserName:TextView
+    private lateinit var currentUsersName:TextView
     private lateinit var familyFriendsButton :LinearLayout
+    private lateinit var fragmentView:View
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +49,9 @@ class SettingsFragment : Fragment() {
         profileButton = view.findViewById(R.id.action_profile)
         uniqueCodeButton = view.findViewById(R.id.action_unique_code)
         familyFriendsButton = view.findViewById(R.id.action_family_friends)
+        fragmentView=view
 
-
-        currentUserName = view.findViewById(R.id.user_name_text)
+        setUpProfileCard()
         generateUCode()
         signOut()
 
@@ -57,57 +59,21 @@ class SettingsFragment : Fragment() {
             val intent = Intent(requireContext(), SettingsActivity::class.java)
             intent.putExtra("fragment_to_load", "family_friends")
             startActivity(intent)
-//            FirebaseUtils().userCircleDetails("family").set(UserCircleModel(listOf(UserModel("ashish","fdfd",""))))
-//                .addOnCompleteListener {
-//                    showSnackbar("done done")
-//                }
         }
 
     }
 
-    //TODO: real time data base code
-//    fun fd(){
-//        val x:DatabaseReference = FirebaseDatabase.getInstance().getReference(FirebaseUtils().currentUserId()?:"")
-//        val generatedKey=x.push()
-//        val userCircleData = UserCircleModel(UserModel("John", "john@example.com",""))
-//        x.child("fam").setValue(userCircleData).addOnCompleteListener {
-//            showSnackbar("done")
-//        }
-//    }
+    private fun setUpProfileCard() {
+        currentUsersName = fragmentView.findViewById(R.id.user_name_display)
+        val user =PrefConstant.getUserDetails(requireContext())
+        currentUsersName.text = user.name
+
+    }
 
     private fun generateUCode() {
         uniqueCodeButton.setOnClickListener {
-            val dialog = UniqueCodeDialog()
+            val dialog = UniqueCodeDialog.newInstance(null,true,true)
             dialog.show(parentFragmentManager,"UniqueCodeDialog")
-            // TODO: generate this code at time of new login
-           // generateAndAddUniqueCode()
-
-
-        }
-    }
-
-    private fun generateAndAddUniqueCode() {
-        var generatedCode: String
-        do {
-            generatedCode = generateUniqueCode()
-        } while (isCodeExistsInDatabase(generatedCode))
-        FirebaseUtils().uniqueCodeDetails().set(JoiningCode(generatedCode)).addOnCompleteListener {task->
-            if (task.isSuccessful){
-                Timber.i("User joining code successfully uploaded")
-            }
-        }
-    }
-
-    private fun isCodeExistsInDatabase(code: String): Boolean {
-        val query = FirebaseFirestore.getInstance()
-            .collection("uniqueCode")
-            .whereEqualTo("uniqueCode", code)
-        return try {
-            val result = query.get().result
-            !result.isEmpty
-        } catch (e: Exception) {
-            Timber.e("Error checking code existence: $e")
-            false
         }
     }
 

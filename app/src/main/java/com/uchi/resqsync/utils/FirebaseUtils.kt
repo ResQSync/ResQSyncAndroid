@@ -16,6 +16,7 @@ import com.google.firebase.firestore.auth.User
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.uchi.resqsync.adapters.usercirclechip.UserCircleChipModel
+import com.uchi.resqsync.models.JoiningCode
 
 import timber.log.Timber
 
@@ -38,6 +39,10 @@ public class FirebaseUtils {
         return FirebaseFirestore.getInstance().collection("users").document(currentUserId()?:"")
     }
 
+    fun getUserDetails(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection("users")
+    }
+
     fun currentUserLocationDetails() : DocumentReference{
         return FirebaseFirestore.getInstance().collection("userLocation").document(currentUserId()?:"")
     }
@@ -46,9 +51,13 @@ public class FirebaseUtils {
         return FirebaseFirestore.getInstance().collection("uniqueCode").document(currentUserId()?:"")
     }
 
+    fun getUniqueCodeDetails() : CollectionReference{
+        return FirebaseFirestore.getInstance().collection("uniqueCode")
+    }
+
     fun userCircleDetails(name:String) : DocumentReference{
         return FirebaseFirestore.getInstance().collection("userCircle")
-            .document(currentUserId()?:"").collection(name).document(name)
+            .document(currentUserId()?:"").collection(name).document(FirebaseUtils().currentUserId()?:"")
     }
 
     fun createCollection(name:String){
@@ -81,6 +90,31 @@ public class FirebaseUtils {
         })
 
         return helpList
+    }
+
+  fun generateAndAddUniqueCode() {
+        var generatedCode: String
+        do {
+            generatedCode = Utility.generateUniqueCode()
+        } while (isCodeExistsInDatabase(generatedCode))
+        FirebaseUtils().uniqueCodeDetails().set(JoiningCode(FirebaseUtils().currentUserId()?:"",generatedCode)).addOnCompleteListener { task->
+            if (task.isSuccessful){
+                Timber.i("User joining code successfully uploaded")
+            }
+        }
+    }
+
+    private fun isCodeExistsInDatabase(code: String): Boolean {
+        val query = FirebaseFirestore.getInstance()
+            .collection("uniqueCode")
+            .whereEqualTo("uniqueCode", code)
+        return try {
+            val result = query.get().result
+            !result.isEmpty
+        } catch (e: Exception) {
+            Timber.e("Error checking code existence: $e")
+            false
+        }
     }
 
 
