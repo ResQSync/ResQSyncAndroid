@@ -29,7 +29,6 @@ import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.PrefConstant
 import com.uchi.resqsync.utils.map.PeopleClusterManagerRenderer
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 
 class LocationMapFragment : Fragment() {
@@ -62,6 +61,7 @@ class LocationMapFragment : Fragment() {
 
         userLocations = mutableListOf()
         fusedLastLocation=LocationServices.getFusedLocationProviderClient(requireActivity())
+
 
         loadFamilyMembers()
         setMyLocation()
@@ -127,7 +127,6 @@ class LocationMapFragment : Fragment() {
                 userPosition= UserLocation(geoPoint, null,PrefConstant.getUserDetails(requireContext()))
 
             }
-            WorkerLocation()
         }
 
     }

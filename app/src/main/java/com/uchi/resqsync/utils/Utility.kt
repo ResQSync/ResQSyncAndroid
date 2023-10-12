@@ -1,6 +1,28 @@
+/*
+ *  Copyright (c) 2023 Ashish Yadav <mailtoashish693@gmail.com>
+ *
+ *  This program is free software; you can redistribute it and/or modify it under
+ *  the terms of the GNU General Public License as published by the Free Software
+ *  Foundation; either version 3 of the License, or (at your option) any later
+ *  version.
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ *  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ *  PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along with
+ *  this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.uchi.resqsync.utils
 
+import android.app.Activity
+import android.content.ClipData
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
+import android.content.pm.PackageManager
+
 import android.location.Location
 import android.text.Selection
 import android.text.Spannable
@@ -13,6 +35,8 @@ import android.util.Patterns
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
+
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -96,6 +120,7 @@ object Utility {
         this.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
 
+    /** Generate 6 a unique code for every user, a combination of 6 characters both upper and lower **/
     fun generateUniqueCode(): String {
         val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         val codeLength = 6
@@ -109,4 +134,22 @@ object Utility {
         return code.toString()
     }
 
+    /** Copies text to clipboard on button click **/
+    fun copyTextToClipboard(copyText: String, label:String, activity: Activity) {
+        val clipboardManager = activity.
+        getSystemService(CLIPBOARD_SERVICE) as
+                android.content.ClipboardManager
+        val clipData = ClipData.newPlainText(label ,copyText.trim())
+        clipboardManager.setPrimaryClip(clipData)
+    }
+
+    fun shareAction(value:String,title:String, context: Context){
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, value)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, title)
+        context.startActivity(shareIntent)
+    }
 }

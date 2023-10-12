@@ -7,7 +7,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.uchi.resqsync.ui.onboarding.OnboardingActivity
 
-
+//TODO: delete this activity
 class ResQSync : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

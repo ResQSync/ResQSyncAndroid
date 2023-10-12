@@ -28,6 +28,7 @@ import timber.log.Timber
 class LocationService : Service() {
     private var mFusedLocationClient: FusedLocationProviderClient? = null
     val CHANNEL_ID = "ResQSync_Channel_1"
+    val CHANNEL_NAME="LocationChannel"
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -38,7 +39,7 @@ class LocationService : Service() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "My Channel",
+            CHANNEL_NAME,
             NotificationManager.IMPORTANCE_HIGH
         )
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
@@ -57,17 +58,13 @@ class LocationService : Service() {
 
     private val location: Unit
         private get() {
-
-            // ---------------------------------- LocationRequest ------------------------------------
-            // Create the location request to start receiving updates
+            // ---------------------------------- LocationRequest ------------------------------------//
             val mLocationRequestHighAccuracy = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, UPDATE_INTERVAL)
                 .setWaitForAccurateLocation(false)
                 .setMinUpdateIntervalMillis(FASTEST_INTERVAL)
                 .setMaxUpdateDelayMillis(LONGEST_WAIT_TIME)
                 .build()
 
-
-            // new Google API SDK v11 uses getFusedLocationProviderClient(this)
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -120,8 +117,8 @@ class LocationService : Service() {
     }
 
     companion object {
-        private const val UPDATE_INTERVAL = (4 * 1000 /* 4 secs */).toLong()
-        private const val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
+        private const val UPDATE_INTERVAL = (10 * 1000).toLong()
+        private const val FASTEST_INTERVAL: Long = 2000
         private const val LONGEST_WAIT_TIME :Long=20000
     }
 }

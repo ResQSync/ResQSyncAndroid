@@ -15,7 +15,6 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/action_copy_code"
             android:clickable="true"
             android:focusable="true"
             android:layout_width="match_parent"
@@ -34,6 +33,7 @@
                 android:textSize="@dimen/title_text" />
 
             <ImageView
+                android:id="@+id/action_share_code"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
@@ -44,6 +44,7 @@
                 android:src="@drawable/ic_share" />
 
             <ImageView
+                android:id="@+id/action_copy_code"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
