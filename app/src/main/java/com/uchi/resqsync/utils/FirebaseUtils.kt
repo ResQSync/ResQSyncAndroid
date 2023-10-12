@@ -47,6 +47,10 @@ public class FirebaseUtils {
         return FirebaseFirestore.getInstance().collection("userLocation").document(currentUserId()?:"")
     }
 
+    fun memberLocationDetails(uid:String) : DocumentReference{
+        return FirebaseFirestore.getInstance().collection("userLocation").document(uid)
+    }
+
     fun uniqueCodeDetails() : DocumentReference{
         return FirebaseFirestore.getInstance().collection("uniqueCode").document(currentUserId()?:"")
     }

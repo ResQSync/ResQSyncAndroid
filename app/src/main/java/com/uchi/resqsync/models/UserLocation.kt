@@ -12,10 +12,6 @@ data class UserLocation(
     val timestamp: Date?,
     val user:UserModel
     ){
-    constructor(latitude: Double, longitude: Double, timestamp: Date?,user: UserModel) : this(
-        GeoPoint(latitude, longitude),
-        timestamp,
-        user
-    )
+    constructor() : this(GeoPoint(0.0, 0.0), null, UserModel())
 }
 

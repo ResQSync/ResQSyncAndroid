@@ -1,4 +1,4 @@
-package com.uchi.resqsync.service
+package com.uchi.resqsync.services
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

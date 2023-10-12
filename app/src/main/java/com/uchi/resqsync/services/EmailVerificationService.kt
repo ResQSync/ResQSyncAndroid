@@ -1,13 +1,8 @@
-package com.uchi.resqsync.service
+package com.uchi.resqsync.services
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
 import timber.log.Timber

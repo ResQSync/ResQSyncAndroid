@@ -26,9 +26,19 @@
             android:exported="false" />
 
         <service
-            android:name=".maps.services.LocationService"
-            android:enabled="false"
+            android:name=".services.LocationService"
+            android:stopWithTask="false"
+            android:enabled="true"
             android:exported="true" />
+
+        <receiver android:name=".broadcast.LocationBroadcastReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="locationservice" />
+            </intent-filter>
+
+        </receiver>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -38,8 +48,9 @@
             android:value="${MAPS_API_KEY}" />
 
         <service
-            android:name=".service.EmailVerificationService"
+            android:name=".services.EmailVerificationService"
             android:enabled="true"
+            android:foregroundServiceType="location"
             android:exported="false" />
 
         <activity

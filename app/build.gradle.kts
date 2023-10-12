@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "com.uchi.resqsync"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -88,5 +88,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:20.2.2")
     //country code picker
     implementation ("com.hbb20:ccp:2.7.0")
+    //coroutines
+    implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
 
 }

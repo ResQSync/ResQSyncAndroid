@@ -1,19 +1,27 @@
 package com.uchi.resqsync.ui.dashboard
 
 import android.Manifest
+import android.app.ActivityManager
 import android.app.Dialog
+import android.app.usage.UsageEvents.Event
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.uchi.resqsync.R
 import com.uchi.resqsync.models.UserCircleModel
+import com.uchi.resqsync.models.UserLocation
+import com.uchi.resqsync.services.LocationService
 import com.uchi.resqsync.snackbar.BaseSnackbarBuilderProvider
 import com.uchi.resqsync.snackbar.SnackbarBuilder
 import com.uchi.resqsync.snackbar.showSnackbar
@@ -21,6 +29,8 @@ import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.Permission
 import com.uchi.resqsync.utils.PrefConstant
 import com.uchi.resqsync.utils.PrefConstant.ERROR_DIALOG_REQUEST
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 
 
@@ -38,14 +48,8 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
         loadFragment(LocationMapFragment())
         bottomNavigation = findViewById(R.id.bottomNav)
 
-//        if(!Permission.canUseLocation(this)){
-//            ActivityCompat.requestPermissions(
-//                this,
-//                arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
-//                REQUEST_LOCATION_PERMISSION
-//            )
-//        }
-        showSnackbar("invalid otp")
+        // new and this is required as we suppressed permission check in LocationFragment
+        mapPermissionCheck()
         checkPermissions()
 
         bottomNavigation.setOnItemSelectedListener {
@@ -74,19 +78,14 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-      //  if(checkMapServices()){
-            //TODO: if(checkMapServices()){
-            //            if(mLocationPermissionGranted){
-            //                continue here
-            //            }
-            //            else{
-            //                getLocationPermission();
-            //            }
-            //        }
-       // }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if(checkMapServices()){
+//             if(checkMapServices()){
+//
+//                    }
+//        }
+//    }
 
     private  fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
@@ -95,26 +94,23 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
     }
 
     private fun checkPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-             if(!Permission.canUseLocation(this) && !Permission.canUseBackgroundLocation(this)) {
-                locationPermissions.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
-                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        if (Permission.canUseBackgroundLocation(this)) {
-                            backgroundLocation.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                        }
-                    }
+        if(!Permission.canUseLocation(this) && !Permission.canUseBackgroundLocation(this)) {
+           locationPermissions.launch(
+               arrayOf(
+                   Manifest.permission.ACCESS_FINE_LOCATION,
+                   Manifest.permission.ACCESS_COARSE_LOCATION
+               )
+           )
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                   if (Permission.canUseBackgroundLocation(this)) {
+                       backgroundLocation.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                   }
+               }
 
-            }else{
-               // startService(service)
-                Toast.makeText(this, "location granted", Toast.LENGTH_SHORT).show()
+       }else{
+           Toast.makeText(this, "location granted", Toast.LENGTH_SHORT).show()
 
-            }
-        }
+       }
     }
 
 //    private val locationPermissions =
@@ -217,5 +213,59 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
             }
     }
 
+    fun mapPermissionCheck(){
+        // Required here as a safety check
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                PrefConstant.PERMISSIONS_REQUEST_ACCESS_LOCATION
+            )
+            return
+        }
+    }
+
+//     fun startLocationService() {
+//        if (!isLocationServiceRunning()) {
+//            val serviceIntent = Intent(this, LocationService::class.java)
+//            //        this.startService(serviceIntent);
+//
+//            this@DashBoardActivity.startForegroundService(serviceIntent)
+//        }
+//    }
+//
+//    private fun isLocationServiceRunning(): Boolean {
+//        val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+//        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+//            if ("com.uchi.resqsync.services.LocationService" == service.service.className) {
+//                Timber.d("isLocationServiceRunning: location service is already running.")
+//                return true
+//            }
+//        }
+//        Timber.d("isLocationServiceRunning: location service is not running.")
+//        return false
+//    }
+
+    override fun onStart() {
+        super.onStart()
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    @Subscribe
+    fun receiveLocationEvent(locationEvent: UserLocation){
+        Timber.d(locationEvent.geoPoint.toString())
+    }
 
 }

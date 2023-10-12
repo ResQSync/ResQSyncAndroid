@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.button.MaterialButton
 import com.uchi.resqsync.R
-import com.uchi.resqsync.service.EmailStatusViewModel
-import com.uchi.resqsync.service.EmailVerificationService
+import com.uchi.resqsync.services.EmailStatusViewModel
+import com.uchi.resqsync.services.EmailVerificationService
 import com.uchi.resqsync.ui.dashboard.DashBoardActivity
 
 import kotlinx.coroutines.launch
@@ -33,7 +33,8 @@ class PendingVerification : AppCompatActivity() {
 
     fun getStatus(){
         val viewModel: EmailStatusViewModel =
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(EmailStatusViewModel::class.java)
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(
+                EmailStatusViewModel::class.java)
         lifecycleScope.launch {
             viewModel.getData().collect { status ->
                 if (status) {
