@@ -124,7 +124,7 @@ class LocationMapFragment : Fragment() {
             fusedLastLocation.lastLocation.addOnCompleteListener {task->
                 val location = task.result
                 val geoPoint = GeoPoint(location.latitude,location.longitude)
-                userPosition= UserLocation(geoPoint, null,PrefConstant.getUserDetails(requireContext()))
+                userPosition= UserLocation(geoPoint, null,PrefConstant.getUserDetails(requireActivity().applicationContext))
 
             }
         }
@@ -252,7 +252,7 @@ class LocationMapFragment : Fragment() {
 
     fun startLocationService() {
         if (!isLocationServiceRunning()) {
-            val serviceIntent = Intent(requireContext(), LocationService::class.java)
+            val serviceIntent = Intent(requireActivity().applicationContext, LocationService::class.java)
             //        this.startService(serviceIntent);
 
             requireActivity().startForegroundService(serviceIntent)
@@ -310,7 +310,4 @@ class LocationMapFragment : Fragment() {
             requireActivity().sendBroadcast(broadcastIntent)
         super.onDestroy()
     }
-
-
-
 }

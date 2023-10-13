@@ -53,44 +53,42 @@ class LocationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        location
+        startLocationUpdates()
         return START_STICKY}
 
-    private val location: Unit
-        private get() {
-            // ---------------------------------- LocationRequest ------------------------------------//
-            val mLocationRequestHighAccuracy = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, UPDATE_INTERVAL)
-                .setWaitForAccurateLocation(false)
-                .setMinUpdateIntervalMillis(FASTEST_INTERVAL)
-                .setMaxUpdateDelayMillis(LONGEST_WAIT_TIME)
-                .build()
+    private fun startLocationUpdates() {
+        val mLocationRequestHighAccuracy = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, UPDATE_INTERVAL)
+            .setWaitForAccurateLocation(false)
+            .setMinUpdateIntervalMillis(FASTEST_INTERVAL)
+            .setMaxUpdateDelayMillis(LONGEST_WAIT_TIME)
+            .build()
 
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
+        if (ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
-                stopSelf()
-                return
-            }
-
-            mFusedLocationClient!!.requestLocationUpdates(
-                mLocationRequestHighAccuracy, object : LocationCallback() {
-                    override fun onLocationResult(locationResult: LocationResult) {
-
-                        val location = locationResult.lastLocation
-                        if (location != null) {
-                            val user: UserModel = PrefConstant.getUserDetails(applicationContext)
-                            val geoPoint = GeoPoint(location.latitude, location.longitude)
-                            val userLocation = UserLocation( geoPoint, null,user)
-                            saveUserLocation(userLocation)
-                        }
-                    }
-                },
-                Looper.myLooper()
-            )
+            stopSelf()
+            return
         }
+
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequestHighAccuracy, object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+
+                    val location = locationResult.lastLocation
+                    if (location != null) {
+                        val user: UserModel = PrefConstant.getUserDetails(applicationContext)
+                        val geoPoint = GeoPoint(location.latitude, location.longitude)
+                        val userLocation = UserLocation( geoPoint, null,user)
+                        saveUserLocation(userLocation)
+                    }
+                }
+            },
+            Looper.myLooper()
+        )
+    }
 
     private fun saveUserLocation(userLocation: UserLocation) {
         try {
@@ -112,7 +110,7 @@ class LocationService : Service() {
         super.onDestroy()
         val broadcastIntent = Intent()
         broadcastIntent.action = "locationservice"
-        broadcastIntent.setClass(this, LocationBroadcastReceiver::class.java)
+        broadcastIntent.setClass(applicationContext, LocationBroadcastReceiver::class.java)
         this.sendBroadcast(broadcastIntent)
     }
 

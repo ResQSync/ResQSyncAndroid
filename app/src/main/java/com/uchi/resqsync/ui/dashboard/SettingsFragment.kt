@@ -49,6 +49,7 @@ class SettingsFragment : Fragment() {
     private lateinit var currentUsersName:TextView
     private lateinit var familyFriendsButton :LinearLayout
     private lateinit var fragmentView:View
+    private lateinit var aboutFragmentButton:LinearLayout
 
 
     override fun onCreateView(
@@ -65,11 +66,18 @@ class SettingsFragment : Fragment() {
         profileButton = view.findViewById(R.id.action_profile)
         uniqueCodeButton = view.findViewById(R.id.action_unique_code)
         familyFriendsButton = view.findViewById(R.id.action_family_friends)
+        aboutFragmentButton = view.findViewById(R.id.action_about)
         fragmentView=view
 
         setUpProfileCard()
         generateUCode()
         signOut()
+
+        aboutFragmentButton.setOnClickListener {
+            val intent = Intent(requireContext(), SettingsActivity::class.java)
+            intent.putExtra("fragment_to_load", "about_fragment")
+            startActivity(intent)
+        }
 
         familyFriendsButton.setOnClickListener {
             val intent = Intent(requireContext(), SettingsActivity::class.java)

@@ -31,6 +31,7 @@ class UserCircleChipAdapter(val list: List<UserCircleChipModel>):
     override fun getItemCount(): Int {
        return list.size
     }
+
     inner class ModelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var chipName: TextView
         var linearLayout: LinearLayout

@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.uchi.resqsync.models.EmergencyContactDataModel
 import com.uchi.resqsync.models.UserCircleModel
 import com.uchi.resqsync.models.UserModel
 import timber.log.Timber
@@ -96,6 +97,40 @@ object PrefConstant {
 
     }
 
+    fun saveEmergencyContacts(context: Context, data:EmergencyContactDataModel){
+        val gson=Gson()
+        val details =gson.toJson(data)
+        context.getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
+            .edit().putString("emergency_contacts",details).apply()
+    }
+
+    fun loadEmergencyContacts(context: Context): EmergencyContactDataModel? {
+        val gson = Gson()
+        val savedContactsJson = context.getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
+            .getString("emergency_contacts", null)
+
+        if(savedContactsJson.isNullOrEmpty()){
+            return null
+        }
+        return try {
+            gson.fromJson(savedContactsJson, EmergencyContactDataModel::class.java)
+        } catch (e: JsonSyntaxException) {
+            Timber.e(e.message)
+            null
+        }
+    }
+
+    fun savePrimarySoSContact(context: Context,phone:String){
+        context.getSharedPreferences(SHARED_PREF, MODE_PRIVATE).edit().putString("primarySoSContact", phone).apply()
+    }
+
+    fun getPrimarySoSContact(context: Context): String? {
+        return context.getSharedPreferences(SHARED_PREF, MODE_PRIVATE)
+            .getString("primarySoSContact", null)
+    }
+
+
+
     fun updateCurrentCircle(context: Context,name: String){
         val sharedPreferences = context.getSharedPreferences(circleName, MODE_PRIVATE)
         sharedPreferences.edit().putString(cName,name).apply()
@@ -105,8 +140,7 @@ object PrefConstant {
         return context.getSharedPreferences(circleName, MODE_PRIVATE).getString(cName,"")
     }
 
-    const val ERROR_DIALOG_REQUEST = 5001
-    const val PERMISSIONS_REQUEST_ACCESS_LOCATION = 5002
-    const val PERMISSIONS_REQUEST_ENABLE_GPS = 5003
+    const val ERROR_DIALOG_REQUEST = 7001
+    const val PERMISSIONS_REQUEST_ACCESS_LOCATION = 7002
 
 }

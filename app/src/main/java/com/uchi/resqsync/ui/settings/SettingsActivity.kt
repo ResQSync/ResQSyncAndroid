@@ -37,8 +37,10 @@ class SettingsActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.settings_nav_layout, FamilyFriendsFragment())
                 .commit()
-        } else if (fragmentToLoad == "other_fragment") {
-            // Load another fragment if needed
+        } else if (fragmentToLoad == "about_fragment") {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.settings_nav_layout, AboutFragment())
+                .commit()
         }
 
     }

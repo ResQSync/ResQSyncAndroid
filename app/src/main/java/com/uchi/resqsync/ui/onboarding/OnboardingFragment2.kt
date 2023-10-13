@@ -15,17 +15,28 @@
  */
 package com.uchi.resqsync.ui.onboarding
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
 import com.uchi.resqsync.R
+import com.uchi.resqsync.ui.dashboard.LocationMapFragment
 import com.uchi.resqsync.ui.phoneAuth.PhoneAuthFragment
 import com.uchi.resqsync.utils.PrefConstant
+import com.uchi.resqsync.utils.UIUtils
 
 class OnboardingFragment2 : Fragment() {
     private lateinit var navController: NavController
@@ -43,9 +54,78 @@ class OnboardingFragment2 : Fragment() {
         navController = Navigation.findNavController(view)
 
         getStartedButton.setOnClickListener {
+            checkRuntimePermissions()
+        }
+    }
+
+    fun checkRuntimePermissions(){
+        if (ActivityCompat.checkSelfPermission(requireContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(requireContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(requireContext(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED
+        ){
+            UIUtils.showThemedToast(requireContext(),"Permission granted",false)
             PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
             navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
+
+        }else{
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(COARSE_LOCATION, FINE_LOCATION,
+                CALL_PHONE), APP_PERMISSION_REQUEST_CODE)
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode== APP_PERMISSION_REQUEST_CODE){
+            if (grantResults.isNotEmpty()){
+                if(grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED
+                    && grantResults[2]== PackageManager.PERMISSION_GRANTED){
+                    PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
+                    navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
+                }else{
+                    showPermissionDialog()
+                    UIUtils.showThemedToast(requireContext(),"Required permission denied",false)
+                }
+            }
+        }else{
+            showPermissionDialog()
+            checkRuntimePermissions()
+        }
+    }
+
+    fun showPermissionDialog(){
+        val builder = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .create()
+        builder.apply {
+            setTitle(resources.getString(R.string.permissions_title))
+            setMessage(resources.getString(R.string.permission_message))
+            setCanceledOnTouchOutside(false)
+            setButton(AlertDialog.BUTTON_POSITIVE,"Allow") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:" + context.packageName)
+                startActivity(intent)
+            }
+        }
+        builder.show()
+
+    }
+
+
+
+
+
+
+    companion object{
+        @RequiresApi(Build.VERSION_CODES.Q)
+        const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        const val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
+        const val COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
+        const val CALL_PHONE = Manifest.permission.CALL_PHONE
+        const val APP_PERMISSION_REQUEST_CODE=2023
     }
 
 }

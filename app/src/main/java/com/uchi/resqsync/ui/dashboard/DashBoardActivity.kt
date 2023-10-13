@@ -22,11 +22,14 @@ import android.app.Dialog
 import android.app.usage.UsageEvents.Event
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -45,6 +48,7 @@ import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.Permission
 import com.uchi.resqsync.utils.PrefConstant
 import com.uchi.resqsync.utils.PrefConstant.ERROR_DIALOG_REQUEST
+import com.uchi.resqsync.utils.UIUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
@@ -250,28 +254,7 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
             return
         }
     }
-
-//     fun startLocationService() {
-//        if (!isLocationServiceRunning()) {
-//            val serviceIntent = Intent(this, LocationService::class.java)
-//            //        this.startService(serviceIntent);
-//
-//            this@DashBoardActivity.startForegroundService(serviceIntent)
-//        }
-//    }
-//
-//    private fun isLocationServiceRunning(): Boolean {
-//        val manager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
-//        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-//            if ("com.uchi.resqsync.services.LocationService" == service.service.className) {
-//                Timber.d("isLocationServiceRunning: location service is already running.")
-//                return true
-//            }
-//        }
-//        Timber.d("isLocationServiceRunning: location service is not running.")
-//        return false
-//    }
-
+    
     override fun onStart() {
         super.onStart()
         if(!EventBus.getDefault().isRegistered(this)){
@@ -283,5 +266,7 @@ class DashBoardActivity : AppCompatActivity(), BaseSnackbarBuilderProvider{
     fun receiveLocationEvent(locationEvent: UserLocation){
         Timber.d(locationEvent.geoPoint.toString())
     }
+
+
 
 }

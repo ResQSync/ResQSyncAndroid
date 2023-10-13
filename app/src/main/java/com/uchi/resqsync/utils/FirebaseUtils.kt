@@ -80,9 +80,40 @@ public class FirebaseUtils {
             .document(currentUserId()?:"").collection(name).document(FirebaseUtils().currentUserId()?:"")
     }
 
-    fun createCollection(name:String){
-        val circleCollection: DatabaseReference = FirebaseDatabase.getInstance().getReference(FirebaseUtils().currentUserId()?:"")
-        circleCollection.child("userCircleCollection").push().setValue(UserCircleChipModel(name))
+  fun generateAndAddUniqueCode() {
+        var generatedCode: String
+        do {
+            generatedCode = Utility.generateUniqueCode()
+        } while (isCodeExistsInDatabase(generatedCode))
+        FirebaseUtils().uniqueCodeDetails().set(JoiningCode(FirebaseUtils().currentUserId()?:"",generatedCode)).addOnCompleteListener { task->
+            if (task.isSuccessful){
+                Timber.i("User joining code successfully uploaded")
+            }
+        }
+    }
+
+    private fun isCodeExistsInDatabase(code: String): Boolean {
+        val query = FirebaseFirestore.getInstance()
+            .collection("uniqueCode")
+            .whereEqualTo("uniqueCode", code)
+        return try {
+            val result = query.get().result
+            !result.isEmpty
+        } catch (e: Exception) {
+            Timber.e("Error checking code existence: $e")
+            false
+        }
+    }
+
+    /** Get the Document reference to the emergency contacts of the user *[uid] is required **/
+    fun emergencyContactsDetails() : DocumentReference{
+        return FirebaseFirestore.getInstance().collection("emergencyContacts").document(currentUserId()?:"")
+    }
+
+    //-------------------------FUTURE CODE STARTS HERE-------------------------//
+    fun getUserCircleDetails() : DocumentReference{
+        return FirebaseFirestore.getInstance().collection("userCircle")
+            .document(currentUserId()?:"")
     }
 
     /** This function is a addon as there is no API available in firebase to fetch the names of all
@@ -112,35 +143,8 @@ public class FirebaseUtils {
         return helpList
     }
 
-  fun generateAndAddUniqueCode() {
-        var generatedCode: String
-        do {
-            generatedCode = Utility.generateUniqueCode()
-        } while (isCodeExistsInDatabase(generatedCode))
-        FirebaseUtils().uniqueCodeDetails().set(JoiningCode(FirebaseUtils().currentUserId()?:"",generatedCode)).addOnCompleteListener { task->
-            if (task.isSuccessful){
-                Timber.i("User joining code successfully uploaded")
-            }
-        }
-    }
-
-    private fun isCodeExistsInDatabase(code: String): Boolean {
-        val query = FirebaseFirestore.getInstance()
-            .collection("uniqueCode")
-            .whereEqualTo("uniqueCode", code)
-        return try {
-            val result = query.get().result
-            !result.isEmpty
-        } catch (e: Exception) {
-            Timber.e("Error checking code existence: $e")
-            false
-        }
-    }
-
-
-
-    fun getUserCircleDetails() : DocumentReference{
-        return FirebaseFirestore.getInstance().collection("userCircle")
-            .document(currentUserId()?:"")
+    fun createCollection(name:String){
+        val circleCollection: DatabaseReference = FirebaseDatabase.getInstance().getReference(FirebaseUtils().currentUserId()?:"")
+        circleCollection.child("userCircleCollection").push().setValue(UserCircleChipModel(name))
     }
 }

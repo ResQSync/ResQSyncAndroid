@@ -40,6 +40,7 @@ import com.uchi.resqsync.R
 import com.uchi.resqsync.models.UserModel
 import com.uchi.resqsync.ui.dashboard.DashBoardActivity
 import com.uchi.resqsync.ui.dialog.LoadingDialog
+import com.uchi.resqsync.ui.onboarding.OnboardingActivity
 import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.PrefConstant
 import timber.log.Timber
