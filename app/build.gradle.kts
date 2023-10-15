@@ -70,7 +70,7 @@ dependencies {
     val lifecycle_version = "2.6.2"
 
     // ViewModel
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
@@ -93,6 +93,8 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     //webview
     implementation("androidx.webkit:webkit:1.8.0")
+    //image cropper
+    implementation("com.vanniktech:android-image-cropper:4.5.0")
 
 
 }

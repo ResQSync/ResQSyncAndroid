@@ -10,8 +10,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:name=".ResQSyncApp"
@@ -25,7 +28,13 @@
         android:theme="@style/Theme.ResQSync"
         tools:targetApi="31">
         <activity
+            android:name=".ui.settings.CroppingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.settings.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.settings.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.email.PendingVerification"
@@ -33,17 +42,17 @@
 
         <service
             android:name=".services.LocationService"
-            android:stopWithTask="false"
             android:enabled="true"
-            android:exported="true" />
-
-        <receiver android:name=".broadcast.LocationBroadcastReceiver"
             android:exported="true"
-            android:enabled="true">
+            android:stopWithTask="false" />
+
+        <receiver
+            android:name=".broadcast.LocationBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="locationservice" />
             </intent-filter>
-
         </receiver>
 
         <meta-data
@@ -58,16 +67,32 @@
             android:exported="false" />
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ui.ResQSync"
-            android:exported="false">
-        </activity>
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"
+            />
+
+        <service
+            android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+
+            <meta-data
+                android:name="photopicker_activity:0:required"
+                android:value="" />
+        </service>
 
         <meta-data
             android:name="preloaded_fonts"

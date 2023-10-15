@@ -33,6 +33,7 @@ import com.uchi.resqsync.models.JoiningCode
 
 import com.uchi.resqsync.ui.dialog.UniqueCodeDialog
 import com.uchi.resqsync.ui.onboarding.OnboardingActivity
+import com.uchi.resqsync.ui.settings.ProfileActivity
 import com.uchi.resqsync.ui.settings.SettingsActivity
 import com.uchi.resqsync.utils.FirebaseUtils
 import com.uchi.resqsync.utils.PrefConstant
@@ -91,6 +92,10 @@ class SettingsFragment : Fragment() {
         currentUsersName = fragmentView.findViewById(R.id.user_name_display)
         val user =PrefConstant.getUserDetails(requireContext())
         currentUsersName.text = user.name
+        profileButton.setOnClickListener {
+            val intent = Intent(requireContext(), ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

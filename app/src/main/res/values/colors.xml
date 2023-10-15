@@ -67,6 +67,7 @@
     <color name="md_theme_dark_surfaceVariant">#42474E</color>
     <color name="md_theme_dark_onSurfaceVariant">#C2C7CF</color>
     <color name="bg_grey_pink">#E7DADA</color>
+    <color name="onboarding_status_bar">#41adee</color>
 
     <color name="sos_red">#E44D2E</color>
 </resources>

@@ -24,6 +24,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -71,6 +72,8 @@ class PhoneAuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val window = requireActivity().window
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         navController = Navigation.findNavController(view)
         if(FirebaseUtils().isLoggedIn()){
             if(PrefConstant.getDetailsProvided(requireContext())){

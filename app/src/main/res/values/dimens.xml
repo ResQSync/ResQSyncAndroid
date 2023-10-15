@@ -6,4 +6,7 @@
     <dimen name="heading">24sp</dimen>
     <dimen name="content_text">18sp</dimen>
     <dimen name="usable_fragment_margin">8dp</dimen>
+    <dimen name="keyline">4dp</dimen>
+    <dimen name="keyline_x2">4dp</dimen>
+    <dimen name="keyline_x4">16dp</dimen>
 </resources>

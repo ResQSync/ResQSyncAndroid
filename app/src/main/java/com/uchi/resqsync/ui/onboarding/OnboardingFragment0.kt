@@ -22,6 +22,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.uchi.resqsync.R
@@ -42,6 +44,8 @@ class OnboardingFragment0 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val window = requireActivity().window
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         navController = Navigation.findNavController(view)
         onboardingImageButton = view.findViewById(R.id.onboarding_btn1)
         onboardingImageButton.setOnClickListener {
