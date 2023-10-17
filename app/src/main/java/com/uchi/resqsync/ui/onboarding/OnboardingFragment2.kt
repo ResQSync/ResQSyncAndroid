@@ -58,99 +58,55 @@ class OnboardingFragment2 : Fragment() {
         }
     }
 
-    fun checkRuntimePermissions(){
+    private fun checkRuntimePermissions() {
+        val permissions = arrayOf(COARSE_LOCATION, FINE_LOCATION, CALL_PHONE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    CALL_PHONE
-                ) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(requireContext(), BACKGROUND_LOCATION)==PackageManager.PERMISSION_GRANTED
-            ) {
-                UIUtils.showThemedToast(requireContext(), "Permission granted", false)
-                PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
-                navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
+            permissions.plus(BACKGROUND_LOCATION)
+        }
 
-            } else {
-                UIUtils.showThemedToast(requireContext(), "Please give required permissions", false)
-                ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(
-                        COARSE_LOCATION, FINE_LOCATION,
-                        CALL_PHONE, BACKGROUND_LOCATION
-                    ), APP_PERMISSION_REQUEST_CODE
-                )
-            }
-        }else{
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    CALL_PHONE
-                ) == PackageManager.PERMISSION_GRANTED) {
-                UIUtils.showThemedToast(requireContext(), "Permission granted", false)
-                PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
-                navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
-
-            } else {
-                UIUtils.showThemedToast(requireContext(), "Please give required permissions", false)
-                ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(
-                        COARSE_LOCATION, FINE_LOCATION,
-                        CALL_PHONE), APP_PERMISSION_REQUEST_CODE
-                )
-            }
+        if (arePermissionsGranted(*permissions)) {
+            UIUtils.showThemedToast(requireContext(), "Permission granted", false)
+            PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
+            navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
+        } else {
+            requestPermissions(permissions)
         }
     }
 
-    @Deprecated("Deprecated in Java")
+    private fun arePermissionsGranted(vararg permissions: String): Boolean {
+        return permissions.all {
+            ActivityCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun requestPermissions(permissions: Array<String>) {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            permissions,
+            APP_PERMISSION_REQUEST_CODE
+        )
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode== APP_PERMISSION_REQUEST_CODE){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                if (grantResults.isNotEmpty()){
-                    if(grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED
-                        && grantResults[2]== PackageManager.PERMISSION_GRANTED && grantResults[3]==PackageManager.PERMISSION_GRANTED){
-                        PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
-                        navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
-                    }else{
-                        showPermissionDialog()
-                        UIUtils.showThemedToast(requireContext(),"Required permission denied",false)
-                    }
-                }
-            }else{
-                if (grantResults.isNotEmpty()){
-                    if(grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED
-                        && grantResults[2]== PackageManager.PERMISSION_GRANTED){
-                        PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
-                        navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
-                    }else{
-                        showPermissionDialog()
-                        UIUtils.showThemedToast(requireContext(),"Required permission denied",false)
-                    }
-                }
+        if (requestCode == APP_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                PrefConstant.setOnboardingPref(PrefConstant.firstTimeOpening, activity)
+                navController.navigate(R.id.action_onboardingFragment2_to_phoneAuthFragment)
+            } else {
+                showPermissionDialog()
+                UIUtils.showThemedToast(requireContext(), "Required permission denied", false)
             }
-        }else{
+        } else {
             showPermissionDialog()
             checkRuntimePermissions()
         }
     }
+
 
     fun showPermissionDialog(){
         val builder = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
