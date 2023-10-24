@@ -9,10 +9,9 @@ ResQSync is a powerful Android application designed to provide users with a comp
 
 <div style="display:flex;">
 
-- Night Mode
-- Multilingual
 - Completely free
 - Google MAP Support
+- Multilingual (Soon)
 - SOS Emergency Alerts
 - Data Privacy and Safety
 - Instant Location Updates
