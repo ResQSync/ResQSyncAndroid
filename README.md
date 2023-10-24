@@ -1,8 +1,23 @@
-# ResQSync
 ![Untitled](https://github.com/ResQSync/ResQSyncAndroid/assets/48384865/4d92adf8-8fc6-40ae-b620-795699fa85e8)
 
+# ResQSync 
+## Keeping Loved Ones Close, Wherever They Roam. Safety First, Always Free!
 
 ResQSync is a powerful Android application designed to provide users with a comprehensive solution for ensuring the safety and security of their family members. With its innovative real-time tracking feature, ResQSync empowers users to effortlessly monitor the whereabouts of their loved ones. Whether it's keeping an eye on children, elderly relatives, or even friends, ResQSync offers peace of mind by enabling users to stay connected and informed at all times.
+
+## Features
+
+<div style="display:flex;">
+
+- Completely free
+- Google MAP Support
+- Multilingual (Soon)
+- SOS Emergency Alerts
+- Data Privacy and Safety
+- Instant Location Updates
+
+## Contribute
+You can contribute to ResQSync by adding new features, fixing bugs or  submitting code.
 
 ## Development Setup Guide
 
