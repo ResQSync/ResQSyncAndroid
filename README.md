@@ -19,6 +19,13 @@ ResQSync is a powerful Android application designed to provide users with a comp
 ## Contribute
 You can contribute to ResQSync by adding new features, fixing bugs or  submitting code.
 
+## Code Contributors
+Thanks to these code contributors who keep this project going
+
+<a href="https://github.com/ResQSync/ResQSyncWeb/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ResQSync/ResQSyncAndroid" />
+</a>
+
 ## Development Setup Guide
 
 1. Download [Android Studio](https://developer.android.com/studio?gclid=Cj0KCQjw4bipBhCyARIsAFsieCz3A1EeRIG97crAXWMC6_PYfbh25cP9Yvi3x1wZXnp3YyIG6-qtVPkaAmAgEALw_wcB&gclsrc=aw.ds)
